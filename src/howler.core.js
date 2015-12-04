@@ -72,6 +72,26 @@
     },
 
     /**
+     * Recreates the web audio context.
+     * @returns {Howler}
+       */
+    resetContext: function() {
+      var self = this || Howler;
+
+      self.unload(); // unload all Howl objects
+
+      setupAudioContext();
+      if (usingWebAudio) {
+        masterGain = (typeof ctx.createGain === 'undefined') ? ctx.createGainNode() : ctx.createGain();
+        masterGain.gain.value = 1;
+        masterGain.connect(ctx.destination);
+      }
+      self.ctx = ctx;
+      self.mobileAutoEnable = true;
+      return self;
+    },
+
+    /**
      * Get/set the global volume for all sounds.
      * @param  {Float} vol Volume from 0.0 to 1.0.
      * @return {Howler/Float}     Returns self or current volume.
