@@ -68,17 +68,34 @@
         self._setupCodecs();
       }
 
+      if (usingWebAudio) {
+        self._resetTimer = setInterval(function() { // recreate audio context every 2 minutes (fix for Android)
+          self.resetAudioContext();
+        }, 120000);
+      }
+
       return self;
     },
 
     /**
      * Recreates the web audio context.
      * @returns {Howler}
-       */
-    resetContext: function() {
+     */
+    resetAudioContext: function() {
       var self = this || Howler;
 
-      self.unload(); // unload all Howl objects
+      if (!usingWebAudio) {
+        return self;
+      }
+
+      // Check if any sounds are playing.
+      for (var i=0; i<self._howls.length; i++) {
+        for (var j=0; j<self._howls[i]._sounds.length; j++) {
+          if (!self._howls[i]._sounds[j]._paused) {
+            return self;
+          }
+        }
+      }
 
       setupAudioContext();
       if (usingWebAudio) {
@@ -88,6 +105,13 @@
       }
       self.ctx = ctx;
       self.mobileAutoEnable = true;
+
+      // recreate the sounds
+      for (var i=0; i<self._howls.length; i++) {
+        for (var j=0; j<self._howls[i]._sounds.length; j++) {
+          self._howls[i]._sounds[j].create();
+        }
+      }
       return self;
     },
 
@@ -205,7 +229,7 @@
       var audioTest = new Audio();
       var mpegTest = audioTest.canPlayType('audio/mpeg;').replace(/^no$/, '');
       var isOpera = /OPR\//.test(navigator.userAgent);
-      
+
       self._codecs = {
         mp3: !!(!isOpera && (mpegTest || audioTest.canPlayType('audio/mp3;').replace(/^no$/, ''))),
         mpeg: !!mpegTest,
@@ -217,7 +241,7 @@
         mp4: !!(audioTest.canPlayType('audio/x-mp4;') || audioTest.canPlayType('audio/mp4;') || audioTest.canPlayType('audio/aac;')).replace(/^no$/, ''),
         weba: !!audioTest.canPlayType('audio/webm; codecs="vorbis"').replace(/^no$/, ''),
         webm: !!audioTest.canPlayType('audio/webm; codecs="vorbis"').replace(/^no$/, ''),
-        dolby: !!audioTest.canPlayType('audio/mp4; codecs="ec-3"').replace(/^no$/, '')        
+        dolby: !!audioTest.canPlayType('audio/mp4; codecs="ec-3"').replace(/^no$/, '')
       };
 
       return self;
@@ -970,7 +994,7 @@
             var dir = from > to ? 'out' : 'in';
             var steps = diff / 0.01;
             var stepLen = len / steps;
-            
+
             (function() {
               var vol = from;
               sound._interval = setInterval(function(id, sound) {
@@ -1382,7 +1406,7 @@
     _emit: function(event, id, msg) {
       var self = this;
       var events = self['_on' + event];
-      
+
       // Loop through event store and fire all functions.
       for (var i=0; i<events.length; i++) {
         if (!events[i].id || events[i].id === id) {
@@ -1715,7 +1739,7 @@
 
       // Fire an error event and pass back the code.
       self._parent._emit('loaderror', self._id, self._node.error ? self._node.error.code : 0);
-      
+
       // Clear the event listener.
       self._node.removeEventListener('error', self._errorListener, false);
     },
@@ -1779,18 +1803,18 @@
         // Setup polyfill for window.atob to support IE9.
         // Modified from: https://github.com/davidchambers/Base64.js
         window.atob = window.atob || function(input) {
-          var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-          var str = String(input).replace(/=+$/, '');
-          for (
-            var bc = 0, bs, buffer, idx = 0, output = '';
-            buffer = str.charAt(idx++);
-            ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer, bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
-          ) {
-            buffer = chars.indexOf(buffer);
-          }
+              var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+              var str = String(input).replace(/=+$/, '');
+              for (
+                  var bc = 0, bs, buffer, idx = 0, output = '';
+                  buffer = str.charAt(idx++);
+                  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer, bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
+              ) {
+                buffer = chars.indexOf(buffer);
+              }
 
-          return output;
-        };
+              return output;
+            };
 
         // Decode the base64 data URI without XHR, since some browsers don't support it.
         var data = atob(url.split(',')[1]);
@@ -1798,7 +1822,7 @@
         for (var i=0; i<data.length; ++i) {
           dataView[i] = data.charCodeAt(i);
         }
-        
+
         decodeAudioData(dataView.buffer, self);
       } else {
         // Load the buffer from the URL.
