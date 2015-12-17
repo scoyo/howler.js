@@ -68,7 +68,7 @@
         self._setupCodecs();
       }
 
-      if (usingWebAudio) {
+      if (usingWebAudio && navigator.userAgent.match(/Android/i)) {
         self._resetTimer = setInterval(function() { // recreate audio context every 2 minutes (fix for Android)
           self.resetAudioContext();
         }, 120000);
@@ -104,7 +104,6 @@
         masterGain.connect(ctx.destination);
       }
       self.ctx = ctx;
-      self.mobileAutoEnable = true;
 
       // recreate the sounds
       for (var i=0; i<self._howls.length; i++) {
@@ -112,6 +111,7 @@
           self._howls[i]._sounds[j].create();
         }
       }
+
       return self;
     },
 
