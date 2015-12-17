@@ -108,6 +108,7 @@
       // recreate the sounds
       for (var i=0; i<self._howls.length; i++) {
         for (var j=0; j<self._howls[i]._sounds.length; j++) {
+          self._howls[i]._clearTimer(self._howls[i]._sounds[j]._id);
           self._howls[i]._sounds[j].create();
         }
       }
