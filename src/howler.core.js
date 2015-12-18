@@ -68,7 +68,7 @@
         self._setupCodecs();
       }
 
-      self.__enableMobileAudio();
+      self._enableMobileAudio();
       
       if (usingWebAudio && navigator.userAgent.match(/Android/i)) {
         self._resetTimer = setInterval(function() { // recreate audio context every 2 minutes (fix for Android)
