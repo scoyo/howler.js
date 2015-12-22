@@ -100,13 +100,8 @@
       }
 
       setupAudioContext();
-      if (usingWebAudio) {
-        masterGain = (typeof ctx.createGain === 'undefined') ? ctx.createGainNode() : ctx.createGain();
-        masterGain.gain.value = 1;
-        masterGain.connect(ctx.destination);
-      }
       self.ctx = ctx;
-
+      
       // recreate the sounds
       for (var i=0; i<self._howls.length; i++) {
         for (var j=0; j<self._howls[i]._sounds.length; j++) {
@@ -259,7 +254,7 @@
     _enableMobileAudio: function() {
       var self = this || Howler;
 
-      // Only run this on iOS if audio isn't already eanbled.
+      // Only run this on iOS if audio isn't already enabled.
       var isMobile = /iPhone|iPad|iPod|Android|BlackBerry|BB10|Silk/i.test(navigator.userAgent);
       var isTouch = !!(('ontouchend' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
       if (ctx && (self._mobileEnabled || !isMobile || !isTouch)) {
