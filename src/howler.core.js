@@ -99,6 +99,10 @@
         }
       }
 
+      if (typeof ctx.close !== 'undefined') {
+        self.ctx = null;
+        ctx.close();
+      }
       setupAudioContext();
       self.ctx = ctx;
       
