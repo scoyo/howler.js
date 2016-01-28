@@ -1920,6 +1920,7 @@
         usingWebAudio = false;
       }
     } catch(e) {
+      console.error('Could not create audio context: ' + e);
       usingWebAudio = false;
     }
 
