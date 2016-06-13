@@ -54,6 +54,10 @@
       // Set to false to disable the auto iOS enabler.
       self.mobileAutoEnable = true;
 
+      // accessible property to show if audio can be played
+      // if not on iOS this gets set to true in device check, if on iOS first successful playing sets this to true
+      self.enabled = false;
+
       // No audio is available on this system if this is set to true.
       self.noAudio = noAudio;
 
@@ -262,6 +266,7 @@
       var isMobile = /iPhone|iPad|iPod|Android|BlackBerry|BB10|Silk/i.test(navigator.userAgent);
       var isTouch = !!(('ontouchend' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
       if (ctx && (self._mobileEnabled || !isMobile || !isTouch)) {
+        self.enabled = true;
         return;
       }
 
@@ -289,6 +294,7 @@
           source.disconnect(0);
 
           // Update the unlocked state and prevent this check from happening again.
+          self.enabled = true;
           self._mobileEnabled = true;
           self.mobileAutoEnable = false;
 
