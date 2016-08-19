@@ -77,7 +77,7 @@
       if (usingWebAudio && navigator.userAgent.match(/Android/i)) {
         self._resetTimer = setInterval(function() { // recreate audio context every 2 minutes (fix for Android)
           self.resetAudioContext();
-        }, 120000);
+        }, 25000);
       }
 
       return self;
