@@ -356,6 +356,13 @@
         source.buffer = self._scratchBuffer;
         source.connect(self.ctx.destination);
 
+        // set audiocontext.state to running
+        // necessary for Chrome Android to play sounds
+        // on iOS the same happens when playing the empty buffer
+        if (navigator.userAgent.match(/Android/i)) {
+            self.ctx.resume();
+        }
+
         // Play the empty buffer.
         if (typeof source.start === 'undefined') {
           source.noteOn(0);
