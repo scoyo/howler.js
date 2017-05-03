@@ -42,7 +42,7 @@
       self.masterGain = null;
       self.noAudio = false;
       self.usingWebAudio = true;
-      self.autoSuspend = true;
+      self.autoSuspend = false;
       self.ctx = null;
 
       // Set to false to disable the auto iOS enabler.
@@ -66,78 +66,78 @@
      * Needs to be done even if autosuspend is set to false.
      * @return {Howler}
      */
-    _autoCloseContext_android: function() {
-      var self = this;
-      if (!self.ctx || !Howler.usingWebAudio) {
-        return self;
-      }
-
-      // Check if any sounds are playing.
-      for (var i=0; i<self._howls.length; i++) {
-        if (self._howls[i]._webAudio) {
-          for (var j=0; j<self._howls[i]._sounds.length; j++) {
-            if (!self._howls[i]._sounds[j]._paused) {
-              return self;
-            }
-          }
-        }
-      }
-
-      if (self._suspendTimer) {
-        clearTimeout(self._suspendTimer);
-      }
-
-      // If no sound has played after 20 seconds, suspend the context.
-      self._suspendTimer = setTimeout(function() {
-        self._suspendTimer = null;
-        self.state = 'suspending';
-        if (typeof self.ctx.close !== 'undefined') {
-          self.ctx.close();
-          self.ctx = null;
-          self.state = 'suspended';
-        }
-        setupAudioContext(); // this starts _autoSuspend and _autoCloseContext_android anew - context needs to be closed again after some time
-      }, 20000);
-
-      return self;
-    },
+    // _autoCloseContext_android: function() {
+    //   var self = this;
+    //   if (!self.ctx || !Howler.usingWebAudio) {
+    //     return self;
+    //   }
+    //
+    //   // Check if any sounds are playing.
+    //   for (var i=0; i<self._howls.length; i++) {
+    //     if (self._howls[i]._webAudio) {
+    //       for (var j=0; j<self._howls[i]._sounds.length; j++) {
+    //         if (!self._howls[i]._sounds[j]._paused) {
+    //           return self;
+    //         }
+    //       }
+    //     }
+    //   }
+    //
+    //   if (self._suspendTimer) {
+    //     clearTimeout(self._suspendTimer);
+    //   }
+    //
+    //   // If no sound has played after 20 seconds, suspend the context.
+    //   self._suspendTimer = setTimeout(function() {
+    //     self._suspendTimer = null;
+    //     self.state = 'suspending';
+    //     if (typeof self.ctx.close !== 'undefined') {
+    //       self.ctx.close();
+    //       self.ctx = null;
+    //       self.state = 'suspended';
+    //     }
+    //     setupAudioContext(); // this starts _autoSuspend and _autoCloseContext_android anew - context needs to be closed again after some time
+    //   }, 20000);
+    //
+    //   return self;
+    // },
 
     /**
      * Automatically resume the Web Audio AudioContext when a new sound is played.
      * As for android the whole audio context was closed and recreated, we need to redreate the Howls' sounds here.
      * @return {Howler}
      */
-    _autoRecreateContext_android: function() {
-      var self = this;
-      if (!self.ctx || !Howler.usingWebAudio) {
-        return;
-      }
-      if (self.state === 'running' && self._suspendTimer) {
-        clearTimeout(self._suspendTimer);
-        self._suspendTimer = null;
-      } else if (self.state === 'suspended') {
-        self.state = 'resuming';
-
-        // recreate the sounds
-        for (var i=0; i<self._howls.length; i++) {
-          for (var j=0; j<self._howls[i]._sounds.length; j++) {
-            self._howls[i]._clearTimer(self._howls[i]._sounds[j]._id);
-            self._howls[i]._sounds[j].create();
-          }
-        }
-
-        self.state = 'running';
-
-        if (self._suspendTimer) {
-          clearTimeout(self._suspendTimer);
-          self._suspendTimer = null;
-        }
-      } else if (self.state === 'suspending') {
-        self._resumeAfterSuspend = true;
-      }
-
-      return self;
-    },
+    // _autoRecreateContext_android: function() {
+    //   var self = this;
+    //   if (!self.ctx || !Howler.usingWebAudio) {
+    //     return;
+    //   }
+    //   if (self.state === 'running' && self._suspendTimer) {
+    //     clearTimeout(self._suspendTimer);
+    //     self._suspendTimer = null;
+    //   } else if (self.state === 'suspended') {
+    //     self.state = 'resuming';
+    //
+    //     // recreate the sounds
+    //     for (var i=0; i<self._howls.length; i++) {
+    //       for (var j=0; j<self._howls[i]._sounds.length; j++) {
+    //         self._howls[i]._clearTimer(self._howls[i]._sounds[j]._id);
+    //         self._howls[i]._sounds[j].create();
+    //       }
+    //     }
+    //
+    //     self.state = 'running';
+    //
+    //     if (self._suspendTimer) {
+    //       clearTimeout(self._suspendTimer);
+    //       self._suspendTimer = null;
+    //     }
+    //   } else if (self.state === 'suspending') {
+    //     self._resumeAfterSuspend = true;
+    //   }
+    //
+    //   return self;
+    // },
 
     /**
      * Get/set the global volume for all sounds.
@@ -400,9 +400,9 @@
 
       // on android a normal suspending of context does not work - we need to fully close and recreate the context in another method
       // this also needs to be done even if self.autoSuspend == false
-      if (navigator.userAgent.match(/Android/i)) {
-        return self._autoCloseContext_android();
-      }
+      // if (navigator.userAgent.match(/Android/i)) {
+      //   return self._autoCloseContext_android();
+      // }
 
       if (!self.autoSuspend || !self.ctx || typeof self.ctx.suspend === 'undefined' || !Howler.usingWebAudio) {
         return;
@@ -451,9 +451,9 @@
     _autoResume: function() {
       var self = this;
 
-      if (navigator.userAgent.match(/Android/i)) {
-        return self._autoRecreateContext_android();
-      }
+      // if (navigator.userAgent.match(/Android/i)) {
+      //   return self._autoRecreateContext_android();
+      // }
 
       if (!self.ctx || typeof self.ctx.resume === 'undefined' || !Howler.usingWebAudio) {
         return;
