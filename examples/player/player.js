@@ -2,7 +2,7 @@
  *  Howler.js Audio Player Demo
  *  howlerjs.com
  *
- *  (c) 2013-2016, James Simpson of GoldFire Studios
+ *  (c) 2013-2017, James Simpson of GoldFire Studios
  *  goldfirestudios.com
  *
  *  MIT License
@@ -181,11 +181,8 @@ Player.prototype = {
   volume: function(val) {
     var self = this;
 
-    // Get the Howl we want to manipulate.
-    var sound = self.playlist[self.index].howl;
-
-    // Update the volume to the new value.
-    sound.volume(val);
+    // Update the global volume (affecting all Howls).
+    Howler.volume(val);
 
     // Update the display on the slider.
     var barWidth = (val * 90) / 100;

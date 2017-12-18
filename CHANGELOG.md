@@ -1,3 +1,63 @@
+## 2.0.6 (December 15, 2017)
+- `FIXED` Replaced deprecated `gain.value` and `gain.pan.value` with `setValueAtTime` ([#856](https://github.com/goldfire/howler.js/issues/856)).
+- `FIXED` Audio sprites weren't ending correctly in Internet Explorer 11 ([#841](https://github.com/goldfire/howler.js/issues/841)).
+- `FIXED` Correctly set group volume when fading ([#539](https://github.com/goldfire/howler.js/issues/539)).
+- `FIXED` Cancel `fade` on sound when `mute` is called ([#666](https://github.com/goldfire/howler.js/issues/666)).
+- `FIXED` Uncaught error when play() request was interrupted by a call to pause() ([#835](https://github.com/goldfire/howler.js/pull/835)).
+- `FIXED` Incorrect reference to global `_scratchBuffer` ([#834](https://github.com/goldfire/howler.js/pull/834)).
+
+## 2.0.5 (October 6, 2017)
+- `ADDED` Add support for `withCredentials` to Web Audio XHR requests ([#610](https://github.com/goldfire/howler.js/pull/610)).
+- `ADDED` Add `playerror` event for when mobile HTML5 audio is unable to play ([#774](https://github.com/goldfire/howler.js/issues/774)).
+- `FIXED` Refactor fade method to eliminate bind memory allocations (no change to API).
+- `FIXED` Prevent seeking after sound has been unloaded ([#797](https://github.com/goldfire/howler.js/pull/797)).
+- `FIXED` Check for `paused` instead of `ended` on HTML5 end check to correctly handle data URI's ([#775](https://github.com/goldfire/howler.js/pull/775)).
+- `FIXED` Fix unlocking of mobile audio on iOS when user swipes instead of taps ([#808](https://github.com/goldfire/howler.js/pull/808)).
+- `FIXED` `pannerAttr` values can now be set via object as the documentation originally specified.
+- `FIXED` Various corrections and improvements to the spatial audio documentation.
+
+## 2.0.4 (June 9, 2017)
+- `CHANGED` Removed the `resuming` state, which wasn't actually being used and was leading to a bug on Android ([#679](https://github.com/goldfire/howler.js/pull/679)).
+- `CHANGED` Any playback initiated before the sound has loaded will now go into the queue to fix various race conditions ([#714](https://github.com/goldfire/howler.js/pull/714)).
+- `FIXED` Correctly initialize an AudioContext with the global mute status ([#714](https://github.com/goldfire/howler.js/pull/714)).
+- `FIXED` AudioContext unlocks on user interaction within a cross-domain iframe on Android Chrome ([#756](https://github.com/goldfire/howler.js/pull/756)).
+- `FIXED` Stopping/pausing a group of sounds now behaves as expected in edge cases ([#734](https://github.com/goldfire/howler.js/pull/734)).
+- `FIXED` Sound ID's now start at 1000 instead of 0 to avoid `rate` collisions ([#764](https://github.com/goldfire/howler.js/issues/764)).
+- `FIXED` Prevent unknown mime errors on Internet Explorer when unloading a sound ([#720](https://github.com/goldfire/howler.js/pull/720)).
+- `FIXED` Correctly clean up error event listeners ([#720](https://github.com/goldfire/howler.js/pull/720)).
+- `FIXED` Audio clipping in Internet Explorer when network latency is present with HTML5 Audio ([#720](https://github.com/goldfire/howler.js/pull/720)).
+- `FIXED` Allow passing just an event and ID to turn off listener ([#767](https://github.com/goldfire/howler.js/issues/767)).
+- `FIXED` `npm` warning caused by invalid license definition ([#763](https://github.com/goldfire/howler.js/pull/763)).
+
+## 2.0.3 (March 11, 2017)
+- `CHANGED` Unloading a sound no longer fires the `end` event ([#675](https://github.com/goldfire/howler.js/pull/675)).
+- `FIXED` Remove `setTimeout` wrapper on HTML5 `play` call to fix issues on mobile browsers ([#694](https://github.com/goldfire/howler.js/pull/694)).
+- `FIXED` Remove rare possibility of duplicate sound ID's by using global counter ([#709](https://github.com/goldfire/howler.js/issues/709)).
+- `FIXED` Support fades with 2+ decimal places ([#696](https://github.com/goldfire/howler.js/issues/696)).
+- `FIXED` Error in Firefox caused by invalid silent WAV on `unload` ([#678](https://github.com/goldfire/howler.js/issues/678)).
+- `FIXED` Check for and warn about missing file extension ([#680](https://github.com/goldfire/howler.js/issues/680)).
+- `FIXED` Regression in Firefox relating to spatial audio ([#664](https://github.com/goldfire/howler.js/issues/664)).
+
+## 2.0.2 (December 4, 2016)
+- `FIXED` Wait to begin playback until AudioContext has resumed ([#643](https://github.com/goldfire/howler.js/issues/643)).
+- `FIXED` Run `noAudio` check on initial setup instead of waiting for first `Howl` ([#619](https://github.com/goldfire/howler.js/issues/619)).
+- `FIXED` Add `play` event to start of queue when `autoplay` is used ([#659](https://github.com/goldfire/howler.js/issues/659)).
+- `FIXED` Make sure `seek` and `duration` are always >= 0 to prevent errors ([#682](https://github.com/goldfire/howler.js/pull/652)).
+- `FIXED` Audio test wouldn't work in IE11 Enhanced Security Mode ([#631](https://github.com/goldfire/howler.js/pull/631)).
+- `FIXED` Ensure AudioContext exists on `unload` ([#646](https://github.com/goldfire/howler.js/pull/646)).
+- `FIXED` Always fire pause event even if sound is already paused ([#639](https://github.com/goldfire/howler.js/issues/639)).
+
+## 2.0.1 (October 14, 2016)
+- `ADDED` Support for FLAC audio files.
+- `FIXED` Improve fading performance when short fade times are used ([#621](https://github.com/goldfire/howler.js/issues/621)).
+- `FIXED` Correctly handle fades from 0 to 0 volume ([#575](https://github.com/goldfire/howler.js/issues/575)).
+- `FIXED` Prevent a load error from blocking all future playback ([#613](https://github.com/goldfire/howler.js/issues/613)).
+- `FIXED` Reset `noAudio` to `false` when a sound is unloaded ([#617](https://github.com/goldfire/howler.js/pull/617)).
+- `FIXED` Stop a sound even if it is not playing ([#595](https://github.com/goldfire/howler.js/issues/595)).
+- `FIXED` Emit `stop` event before returning from `stop` ([#616](https://github.com/goldfire/howler.js/pull/616)).
+- `FIXED` Improve codec checks by removing `x-` prefix ([#576](https://github.com/goldfire/howler.js/issues/576)).
+- `FIXED` Set correct loop start/end when calling `loop` on a sprite ([#604](https://github.com/goldfire/howler.js/issues/604)).
+
 ## 2.0.0 (July 19, 2016)
 This major release contains just a few breaking changes outlined below. Howler.js has been rewritten from the ground up using the knowledge and work since the initial release. There's a long list of additions and improvements, which I urge you to read through as the library has evolved quite a bit over this time.
 
@@ -15,6 +75,7 @@ Read more about the update [in this blog post](http://goldfirestudios.com/blog/1
 
 ### Breaking Changes
 - The `buffer` option is now named `html5`. Use this to force HTML5 Audio usage.
+- The `urls` option is now named `src` to specify the audio file(s) to play.
 - The `pos` method has been renamed to `seek`.
 
 ```javascript
