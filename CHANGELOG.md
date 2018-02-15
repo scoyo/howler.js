@@ -1,3 +1,18 @@
+## 2.0.9 (February 10, 2018)
+- `FIXED` More accurate HTML5 Audio `end` timer and fix for Firefox streams ending early ([#883](https://github.com/goldfire/howler.js/issues/883)).
+- `FIXED` Prevent `play` events from duplicating in certain instances ([#899](https://github.com/goldfire/howler.js/issues/899)).
+- `FIXED` Add second parameter to HTML5 Audio playback promise to fix Safari error ([#896](https://github.com/goldfire/howler.js/pull/896)).
+- `FIXED` Refactored the internal queue system to fix various edge cases.
+
+## 2.0.8 (January 19, 2018)
+- `CHANGED` Fades now use elapsed time to be more accurate when intervals are inconsistent ([#885](https://github.com/goldfire/howler.js/issues/885)).
+- `CHANGED` Improve timing of short fades ([#884](https://github.com/goldfire/howler.js/issues/884)).
+- `FIXED` Fixed another Chrome deprecation when setting playback rate.
+- `FIXED` Prevent `onplay` from firing when first setting `stereo` value ([#843](https://github.com/goldfire/howler.js/issues/843)).
+
+## 2.0.7 (December 18, 2017)
+- `FIXED` Accidental `const` was included in the previous version.
+
 ## 2.0.6 (December 15, 2017)
 - `FIXED` Replaced deprecated `gain.value` and `gain.pan.value` with `setValueAtTime` ([#856](https://github.com/goldfire/howler.js/issues/856)).
 - `FIXED` Audio sprites weren't ending correctly in Internet Explorer 11 ([#841](https://github.com/goldfire/howler.js/issues/841)).

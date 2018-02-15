@@ -153,6 +153,23 @@ sound.fade(1, 0, 1000, id1);
 sound.rate(1.5, id2);
 ```
 
+##### ES6:
+```javascript
+import {Howl, Howler} from 'howler';
+
+// Setup the new Howl.
+const sound = new Howl({
+  src: ['sound.webm', 'sound.mp3']
+});
+
+// Play the sound.
+sound.play();
+
+// Change global volume.
+Howler.volume(0.5);
+```
+
+
 More in-depth examples (with accompanying live demos) can be found in the [examples directory](https://github.com/goldfire/howler.js/tree/master/examples).
 
 
@@ -432,6 +449,6 @@ ffmpeg -i sound1.wav -dash 1 sound1.webm
 
 ### License
 
-Copyright (c) 2013-2017 [James Simpson](https://twitter.com/GoldFireStudios) and [GoldFire Studios, Inc.](http://goldfirestudios.com)
+Copyright (c) 2013-2018 [James Simpson](https://twitter.com/GoldFireStudios) and [GoldFire Studios, Inc.](http://goldfirestudios.com)
 
 Released under the [MIT License](https://github.com/goldfire/howler.js/blob/master/LICENSE.md).
