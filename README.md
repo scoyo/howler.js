@@ -2,8 +2,8 @@
 
 # scoyo branches usage
 * Use ```master``` branch to keep this fork up to date with the remote. Don't commit any individual changes here.
-* Use ```scoyo_2.0_dev``` for making individual changes. Test this branch in the learn application (PrimarySchoolPortalFrontend) and in the players. Also merge ```master``` into ```scoyo_2.0_dev``` for testing any updates.
-* Use ```scoyo_2.0``` as "release branch": after successful testing, merge the changes from ```scoyo_2.0_dev``` into ```scoyo_2.0``` and use this branch in learn application   
+* Use ```scoyo_2.0_dev``` for making individual changes. Test this branch in learn-frontend and in the players. Also merge ```master``` into ```scoyo_2.0_dev``` for testing any updates.
+* Use ```scoyo_2.0``` as "release branch": after successful testing, merge the changes from ```scoyo_2.0_dev``` into ```scoyo_2.0``` and use this branch in learn application
 
 # Description
 [howler.js](https://howlerjs.com) is an audio library for the modern web. It defaults to [Web Audio API](http://webaudio.github.io/web-audio-api/) and falls back to [HTML5 Audio](https://html.spec.whatwg.org/multipage/embedded-content.html#the-audio-element). This makes working with audio in JavaScript easy and reliable across all platforms.
