@@ -1,7 +1,7 @@
 [![howler.js](https://s3.amazonaws.com/howler.js/howler-logo.png "howler.js")](https://howlerjs.com)
 
 # scoyo branches usage
-* Use ```master``` branch to keep this fork up to date with the remote. Don't commit any individual changes here.
+* Use ```master``` branch to keep this fork up to date with the remote (see https://help.github.com/articles/syncing-a-fork/). Don't commit any individual changes here.
 * Use ```scoyo_2.0_dev``` for making individual changes. Test this branch in learn-frontend and in the players. Also merge ```master``` into ```scoyo_2.0_dev``` for testing any updates.
 * Use ```scoyo_2.0``` as "release branch": after successful testing, merge the changes from ```scoyo_2.0_dev``` into ```scoyo_2.0``` and use this branch in learn application
 
